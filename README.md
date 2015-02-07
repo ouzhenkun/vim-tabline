@@ -1,5 +1,5 @@
 # vim-tabline
-Show tab info in your tab line
+在 vim 的 tab 上显示更多有用的信息 
 
 Screenshots
 --------------------------
