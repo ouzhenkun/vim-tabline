@@ -21,21 +21,13 @@ function! BuildTabLine()
     let result .= ' ' . tab . ':'
     let result .= (bufname != '' ? bufname : '[No Name] ')
 
-    " bufnr modified
-    if getbufvar(bufnr, "&modified")
-      let result .= '+'
-    endif
-
     " buflist modified
-    if winlen > 1
-      let result .= '[' . winnr . '/' . winlen . ']'
-      for winindex in range(winlen)
-        if getbufvar(buflist[winindex], "&modified")
-          let result .= '+'
-          break
-        endif
-      endfor
-    endif
+    for winindex in range(winlen)
+      if getbufvar(buflist[winindex], "&modified")
+        let result .= (buflist[winindex] == bufnr ? '[+]' : '[~]')
+        break
+      endif
+    endfor
 
     let result .= ' '
   endfor
