@@ -12,14 +12,22 @@ function! BuildTabLine()
     let winlen  = tabpagewinnr(tab, '$')
     let buflist = tabpagebuflist(tab)
     let bufnr   = buflist[winnr - 1]
-    let bufname = fnamemodify(bufname(bufnr), ':p:t')
+    let bufname = fnamemodify(bufname(bufnr), ':p:~:.')
 
     " tab color
     let result .= (tab == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
 
     " tab label
     let result .= ' ' . tab . ':'
-    let result .= (bufname != '' ? bufname : '[No Name] ')
+    " pathname/filename
+    if (bufname != '')
+      let fnames = split(bufname, '/')
+      let flen = len(fnames)
+      let fname = fnames[flen - 1]
+      let result .= flen > 1 ? (fnames[flen - 2] . '/' . fname) : fname
+    else
+      let result .= '[No Name]'
+    endif
 
     " buflist modified
     for winindex in range(winlen)
